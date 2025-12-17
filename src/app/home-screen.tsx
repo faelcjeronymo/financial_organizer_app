@@ -1,18 +1,24 @@
 "use client";
 
-import { CreditCardDown, CreditCardPlus, CreditCardUp, Plus } from "@untitledui/icons";
+import { CheckCircle, CreditCardDown, CreditCardPlus, CreditCardUp, Plus } from "@untitledui/icons";
 import { Button } from "@/components/base/buttons/button";
-import { Table, TableCard } from "@/components/application/table/table";
+import { Table, TableCard, TableCell } from "@/components/application/table/table";
 import { Dropdown } from "@/components/base/dropdown/dropdown";
 import { DatePicker } from "@/components/application/date-picker/date-picker";
 import { useState } from "react";
 import { DateValue } from "react-aria";
 import { getLocalTimeZone, today } from "@internationalized/date";
+import useTransactions from "@/hooks/useTransactions";
 
 const now = today(getLocalTimeZone());
-
+//teste
 export const HomeScreen = () => {
-    const [dateFilter, setDateFilter] = useState<DateValue | null>(now)
+    const [dateFilter, setDateFilter] = useState<DateValue>(now)
+    const { data, isLoading, error } = useTransactions(dateFilter?.month, dateFilter?.year);
+
+    if (!isLoading) {
+        console.log(data.transactions);
+    }
 
     return (
         <TableCard.Root>
@@ -21,7 +27,7 @@ export const HomeScreen = () => {
                 className="pb-5"
                 contentTrailing={
                     <div className="flex items-center gap-3">
-                        <DatePicker value={dateFilter} onChange={setDateFilter} />
+                        <DatePicker value={dateFilter} onChange={setDateFilter} aria-label="Date Picker" />
                         <Dropdown.Root>
                             <Button size="md" iconLeading={CreditCardPlus}>Nova Transação</Button>
                             <Dropdown.Popover>
@@ -38,13 +44,22 @@ export const HomeScreen = () => {
             />
             <Table aria-label="Transactions" selectionMode="multiple">
                 <Table.Header>
-                    <Table.Head id={`description`} label="Descrição" isRowHeader/>
+                    <Table.Head id={`description`} label="Descrição" isRowHeader />
                     <Table.Head id={`amount`} label="Valor (R$)" />
                     <Table.Head id={`due_date`} label="Data de vencimento" />
                     <Table.Head id={`bank`} label="Banco" />
                     <Table.Head id={`is_payed`} label="Pago/Recebido" />
                 </Table.Header>
-                <Table.Body>
+                <Table.Body items={!isLoading ? data.transactions : []}>
+                    {(item) => (
+                        <Table.Row key={item.id}>
+                            <Table.Cell>{item.description}</Table.Cell>
+                            <Table.Cell>{item.amount}</Table.Cell>
+                            <Table.Cell>{item.due_date}</Table.Cell>
+                            <Table.Cell>{item.bank}</Table.Cell>
+                            <Table.Cell>{item.is_payed ? <CheckCircle/> : <></>}</Table.Cell>
+                        </Table.Row>
+                    )}
                 </Table.Body>
             </Table>
         </TableCard.Root>
