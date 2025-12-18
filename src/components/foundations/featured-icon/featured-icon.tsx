@@ -4,6 +4,7 @@ import { cx, sortCx } from "@/utils/cx";
 import { isReactComponent } from "@/utils/is-react-component";
 
 const iconsSizes = {
+    xs: "*:data-icon:size-3",
     sm: "*:data-icon:size-4",
     md: "*:data-icon:size-5",
     lg: "*:data-icon:size-6",
@@ -14,6 +15,7 @@ const styles = sortCx({
     light: {
         base: "rounded-full",
         sizes: {
+            xs: "size-6",
             sm: "size-8",
             md: "size-10",
             lg: "size-12",
@@ -31,6 +33,7 @@ const styles = sortCx({
     gradient: {
         base: "rounded-full text-fg-white before:absolute before:inset-0 before:size-full before:rounded-full before:border before:mask-b-from-0% after:absolute after:block after:rounded-full",
         sizes: {
+            xs: "size-6 after:size-4 *:data-icon:size-3",
             sm: "size-8 after:size-6 *:data-icon:size-4",
             md: "size-10 after:size-7 *:data-icon:size-4",
             lg: "size-12 after:size-8 *:data-icon:size-5",
@@ -48,6 +51,7 @@ const styles = sortCx({
     dark: {
         base: "text-fg-white shadow-xs-skeumorphic before:absolute before:inset-px before:border before:border-white/12 before:mask-b-from-0%",
         sizes: {
+            xs: "size-6 rounded-md before:rounded-[5px]",
             sm: "size-8 rounded-md before:rounded-[5px]",
             md: "size-10 rounded-lg before:rounded-[7px]",
             lg: "size-12 rounded-[10px] before:rounded-[9px]",
@@ -65,6 +69,7 @@ const styles = sortCx({
     modern: {
         base: "bg-primary shadow-xs-skeumorphic ring-1 ring-inset",
         sizes: {
+            xs: "size-6 rounded-sm",
             sm: "size-8 rounded-md",
             md: "size-10 rounded-lg",
             lg: "size-12 rounded-[10px]",
@@ -85,6 +90,7 @@ const styles = sortCx({
             "before:shadow-[0px_1px_2px_0px_rgba(0,0,0,0.1),0px_3px_3px_0px_rgba(0,0,0,0.09),1px_8px_5px_0px_rgba(0,0,0,0.05),2px_21px_6px_0px_rgba(0,0,0,0),0px_0px_0px_1px_rgba(0,0,0,0.08),1px_13px_5px_0px_rgba(0,0,0,0.01),0px_-2px_2px_0px_rgba(0,0,0,0.13)_inset] before:ring-1 before:ring-secondary_alt",
         ].join(" "),
         sizes: {
+            xs: "size-6 rounded-[6px] before:rounded-[2px]",
             sm: "size-8 rounded-[8px] before:rounded-[4px]",
             md: "size-10 rounded-[10px] before:rounded-[6px]",
             lg: "size-12 rounded-[12px] before:rounded-[8px]",
@@ -102,6 +108,7 @@ const styles = sortCx({
     outline: {
         base: "before:absolute before:rounded-full before:border-2 after:absolute after:rounded-full after:border-2",
         sizes: {
+            xs: "size-3 before:size-5 after:size-7.5",
             sm: "size-4 before:size-6 after:size-8.5",
             md: "size-5 before:size-7 after:size-9.5",
             lg: "size-6 before:size-8 after:size-10.5",
@@ -122,7 +129,7 @@ interface FeaturedIconProps {
     children?: ReactNode;
     className?: string;
     icon?: FC<{ className?: string }> | ReactNode;
-    size?: "sm" | "md" | "lg" | "xl";
+    size?: "xs" | "sm" | "md" | "lg" | "xl";
     color: "brand" | "gray" | "success" | "warning" | "error";
     theme?: "light" | "gradient" | "dark" | "outline" | "modern" | "modern-neue";
 }
